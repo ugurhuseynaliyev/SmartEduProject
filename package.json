@@ -16,6 +16,7 @@
   "author": "Ugur Huseynaliyev",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^4.0.1",
     "express": "^5.2.1"
   },
   "devDependencies": {
