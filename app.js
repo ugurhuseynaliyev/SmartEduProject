@@ -3,6 +3,7 @@ import pageRoute from "./routes/pageRoute.js";
 import mongoose from "mongoose";
 import courseRoute from "./routes/courseRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
+import userRoute from "./routes/userRoute.js";
 
 const app = express();
 
@@ -19,10 +20,11 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Page Route
+// Routes
 app.use("/", pageRoute);
 app.use("/courses", courseRoute);
 app.use("/categories", categoryRoute);
+app.use("/users", userRoute);
 
 // Start Server
 const port = 3000;

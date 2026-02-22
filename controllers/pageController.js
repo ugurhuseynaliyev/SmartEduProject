@@ -9,3 +9,9 @@ export async function getAboutPage(req, res) {
     page_name: "about",
   });
 }
+
+export async function getRegisterPage(req, res) {
+  res.status(200).render("register", {
+    page_name: "register",
+  });
+}
