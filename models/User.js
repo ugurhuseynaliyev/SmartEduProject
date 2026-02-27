@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 
 const UserSchema = new Schema({
   name: {
@@ -20,12 +20,10 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre("save", async function () {
   const user = this;
-  bcrypt.hash(user.password, 10, (err, hash) => {
-    user.password = hash;
-    next();
-  });
+  const hashedPassword = await bcrypt.hash(user.password, 10);
+  user.password = hashedPassword;
 });
 
 const User = mongoose.model("User", UserSchema);
