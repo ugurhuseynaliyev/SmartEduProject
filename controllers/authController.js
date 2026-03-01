@@ -4,10 +4,7 @@ import bcrypt from "bcrypt";
 export const createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
-    res.status(201).json({
-      status: "success",
-      user,
-    });
+    res.status(201).redirect("/login");
   } catch (error) {
     console.log(error);
     res.status(400).json({
@@ -34,7 +31,8 @@ export const loginUser = async (req, res) => {
 
     // Create Session
     req.session.userID = user._id;
-    return res.status(200).redirect("/");
+    req.session.user = user.email;
+    return res.status(200).redirect("/users/dashboard");
   } catch (error) {
     console.log(error);
     res.status(400).json({
@@ -43,3 +41,17 @@ export const loginUser = async (req, res) => {
     });
   }
 };
+
+export const logoutUser = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+};
+
+export async function getDashboardPage(req, res) {
+  const user = await User.findOne({ _id: req.session.userID });
+  res.status(200).render("dashboard", {
+    page_name: "dashboard",
+    user,
+  });
+}

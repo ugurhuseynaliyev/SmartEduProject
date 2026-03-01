@@ -5,6 +5,7 @@ import courseRoute from "./routes/courseRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import userRoute from "./routes/userRoute.js";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 const app = express();
 
@@ -29,12 +30,16 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: "mongodb://127.0.0.1:27017/smartedu-db",
+    }),
   }),
 );
 
 // Routes
 app.use((req, res, next) => {
-  userIN = req.session.userID;
+  res.locals.userIN = req.session.userID || null;
+  res.locals.userEmail = req.session.user || null;
   next();
 });
 app.use("/", pageRoute);
