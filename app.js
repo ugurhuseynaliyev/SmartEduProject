@@ -6,6 +6,7 @@ import categoryRoute from "./routes/categoryRoute.js";
 import userRoute from "./routes/userRoute.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import flash from "connect-flash";
 
 const app = express();
 
@@ -35,6 +36,12 @@ app.use(
     }),
   }),
 );
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.flashMessage = req.flash();
+  next();
+});
+
 
 // Routes
 app.use((req, res, next) => {
