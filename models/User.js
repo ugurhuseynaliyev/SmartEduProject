@@ -31,10 +31,17 @@ const UserSchema = new Schema({
   ],
 });
 
+// UserSchema.pre("save", async function () {
+//   const user = this;
+//   const hashedPassword = await bcrypt.hash(user.password, 10);
+//   user.password = hashedPassword;
+// });
+
 UserSchema.pre("save", async function () {
-  const user = this;
-  const hashedPassword = await bcrypt.hash(user.password, 10);
-  user.password = hashedPassword;
+  if (!this.isModified("password")) return;
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 const User = mongoose.model("User", UserSchema);

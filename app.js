@@ -7,6 +7,7 @@ import userRoute from "./routes/userRoute.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import flash from "connect-flash";
+import methodOverride from "method-override";
 
 const app = express();
 
@@ -41,7 +42,11 @@ app.use((req, res, next) => {
   res.locals.flashMessage = req.flash();
   next();
 });
-
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  }),
+);
 
 // Routes
 app.use((req, res, next) => {
