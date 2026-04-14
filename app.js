@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import pageRoute from "./routes/pageRoute.js";
 import mongoose from "mongoose";
@@ -8,9 +11,6 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import flash from "connect-flash";
 import methodOverride from "method-override";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const app = express();
 
