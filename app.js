@@ -36,7 +36,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: db_url,
+      mongoUrl: db_url || "mongodb://127.0.0.1:27017/smartedu-db",
     }),
   }),
 );
@@ -63,7 +63,7 @@ app.use("/categories", categoryRoute);
 app.use("/users", userRoute);
 
 // Start Server
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App started on port ${port}`);
 });
