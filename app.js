@@ -8,13 +8,16 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import flash from "connect-flash";
 import methodOverride from "method-override";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
+const db_url = process.env.MONGODB_ATLAS;
+
 // Connect DB
-mongoose
-  .connect("mongodb://127.0.0.1:27017/smartedu-db")
-  .then(() => console.log("Connected!"));
+mongoose.connect(db_url).then(() => console.log("Connected!"));
 
 // Template Engine
 app.set("view engine", "ejs");
@@ -33,7 +36,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1:27017/smartedu-db",
+      mongoUrl: db_url,
     }),
   }),
 );
